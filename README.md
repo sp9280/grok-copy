@@ -1,4 +1,4 @@
-# SARA — Interactive Landing Page
+# GROK — Interactive Landing Page
 
 A visually immersive landing page featuring a real-time **powder-flow water background** rendered on HTML5 Canvas, built with **Vite + TypeScript**.
 
