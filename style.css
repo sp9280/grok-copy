@@ -1,0 +1,490 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: #0b0c0d;
+    color: white;
+    overflow-x: hidden;
+    line-height: 1.6;
+    height: 100vh;
+}
+
+/* Water Flow Canvas Background */
+#waterCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    display: block;
+}
+
+/* Navigation */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: rgba(11, 12, 13, 0.85);
+    backdrop-filter: blur(30px);
+    border-bottom: 1px solid rgba(122, 154, 199, 0.2);
+    padding: 1rem 0;
+    transition: all 0.3s ease;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+}
+
+.nav-logo .logo {
+    height: 24px;
+    width: auto;
+    filter: brightness(1.2);
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+}
+
+.nav-links li {
+    position: relative;
+}
+
+.nav-links a {
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.nav-links a:hover {
+    color: white;
+    text-shadow: 0 0 15px rgba(122, 154, 199, 0.8);
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(78, 96, 163, 1), rgba(122, 154, 199, 1), rgba(186, 149, 137, 0.8));
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+/* Hamburger Menu */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    gap: 4px;
+}
+
+.bar {
+    width: 25px;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.85);
+    transition: all 0.3s ease;
+    border-radius: 2px;
+}
+
+.hamburger.active .bar:nth-child(1) {
+    transform: rotate(-45deg) translate(-5px, 6px);
+}
+
+.hamburger.active .bar:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active .bar:nth-child(3) {
+    transform: rotate(45deg) translate(-5px, -6px);
+}
+
+.try-grok-btn {
+    background: linear-gradient(135deg, rgba(78, 96, 163, 0.3), rgba(122, 154, 199, 0.2));
+    border: 1px solid rgba(122, 154, 199, 0.6);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(20px);
+    position: relative;
+    overflow: hidden;
+}
+
+.try-grok-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.6s ease;
+}
+
+.try-grok-btn:hover::before {
+    left: 100%;
+}
+
+.try-grok-btn:hover {
+    background: linear-gradient(135deg, rgba(78, 96, 163, 0.5), rgba(122, 154, 199, 0.4));
+    border-color: rgba(122, 154, 199, 0.9);
+    box-shadow: 0 0 30px rgba(78, 96, 163, 0.4);
+    transform: translateY(-2px);
+}
+
+/* Hero Section */
+.hero-section {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    padding: 8rem 2rem 4rem;
+}
+
+.hero-content {
+    max-width: 800px;
+    width: 100%;
+    z-index: 10;
+}
+
+.hero-title {
+    font-size: clamp(4rem, 15vw, 12rem);
+    font-weight: 700;
+    margin-bottom: 2rem;
+    background: linear-gradient(135deg,
+        rgba(255, 255, 255, 1) 0%,
+        rgba(122, 154, 199, 0.95) 25%,
+        rgba(78, 96, 163, 0.9) 50%,
+        rgba(186, 149, 137, 0.85) 75%,
+        rgba(255, 255, 255, 0.8) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 30px rgba(122, 154, 199, 0.4));
+    animation: titleGlow 6s ease-in-out infinite;
+    position: relative;
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hero-title::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg,
+        rgba(78, 96, 163, 0.3) 0%,
+        rgba(122, 154, 199, 0.4) 50%,
+        rgba(186, 149, 137, 0.3) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: blur(3px);
+    z-index: -1;
+    opacity: 0.6;
+    animation: titleGlowShadow 6s ease-in-out infinite reverse;
+}
+
+@keyframes titleGlow {
+    0%, 100% {
+        filter: drop-shadow(0 0 30px rgba(122, 154, 199, 0.4));
+        transform: scale(1);
+    }
+    25% {
+        filter: drop-shadow(0 0 40px rgba(78, 96, 163, 0.6));
+        transform: scale(1.02);
+    }
+    50% {
+        filter: drop-shadow(0 0 50px rgba(186, 149, 137, 0.5));
+        transform: scale(1.01);
+    }
+    75% {
+        filter: drop-shadow(0 0 35px rgba(122, 154, 199, 0.7));
+        transform: scale(1.015);
+    }
+}
+
+@keyframes titleGlowShadow {
+    0%, 100% {
+        opacity: 0.6;
+        transform: scale(1.05);
+    }
+    50% {
+        opacity: 0.3;
+        transform: scale(1.1);
+    }
+}
+
+.search-container {
+    position: relative;
+    max-width: 600px;
+    margin: 0 auto 3rem;
+}
+
+.search-input {
+    width: 100%;
+    padding: 1.25rem 4rem 1.25rem 1.5rem;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(122, 154, 199, 0.4);
+    border-radius: 50px;
+    color: white;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(30px);
+    position: relative;
+}
+
+.search-input::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 50px;
+    padding: 1px;
+    background: linear-gradient(45deg, rgba(78, 96, 163, 0.6), rgba(122, 154, 199, 0.4), rgba(186, 149, 137, 0.3));
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.search-input:focus {
+    border-color: rgba(122, 154, 199, 0.8);
+    background: rgba(0, 0, 0, 0.5);
+    box-shadow:
+        0 0 40px rgba(78, 96, 163, 0.4),
+        inset 0 0 30px rgba(122, 154, 199, 0.15),
+        0 0 0 1px rgba(122, 154, 199, 0.3);
+}
+
+.search-input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.search-submit {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, rgba(78, 96, 163, 0.6), rgba(122, 154, 199, 0.4));
+    border: none;
+    border-radius: 50%;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(20px);
+}
+
+.search-submit:hover {
+    background: linear-gradient(135deg, rgba(78, 96, 163, 0.8), rgba(122, 154, 199, 0.6));
+    box-shadow: 0 0 25px rgba(122, 154, 199, 0.6);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.hero-subtitle {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+    text-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+.read-announcement-btn {
+    background: linear-gradient(135deg, rgba(78, 96, 163, 0.2), rgba(122, 154, 199, 0.15));
+    border: 1px solid rgba(122, 154, 199, 0.4);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(20px);
+    position: relative;
+    overflow: hidden;
+}
+
+.read-announcement-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.6s ease;
+}
+
+.read-announcement-btn:hover::before {
+    left: 100%;
+}
+
+.read-announcement-btn:hover {
+    background: linear-gradient(135deg, rgba(78, 96, 163, 0.4), rgba(122, 154, 199, 0.3));
+    border-color: rgba(122, 154, 199, 0.7);
+    box-shadow: 0 0 30px rgba(78, 96, 163, 0.4);
+    transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .nav-container {
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(11, 12, 13, 0.95);
+        backdrop-filter: blur(30px);
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem 2rem;
+        border-bottom: 1px solid rgba(122, 154, 199, 0.2);
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+
+    .hero-title {
+        font-size: 4rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-container {
+        padding: 0 1rem;
+    }
+
+    .hero-section {
+        padding: 6rem 1rem 4rem;
+    }
+
+    .hero-title {
+        font-size: 3rem;
+    }
+}
+
+
+/* BMI Calculator Styles */
+.bmi-calculator {
+    max-width: 400px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(122, 154, 199, 0.4);
+}
+
+.bmi-calculator h2 {
+    color: white;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.bmi-calculator form {
+    display: flex;
+    flex-direction: column;
+}
+
+.bmi-calculator label {
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.bmi-calculator input {
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(122, 154, 199, 0.4);
+    border-radius: 5px;
+    color: white;
+    font-size: 1rem;
+}
+
+.bmi-calculator input:focus {
+    outline: none;
+    border-color: rgba(122, 154, 199, 0.8);
+    box-shadow: 0 0 10px rgba(122, 154, 199, 0.4);
+}
+
+.bmi-calculator button {
+    padding: 0.75rem;
+    background: linear-gradient(135deg, rgba(78, 96, 163, 0.6), rgba(122, 154, 199, 0.4));
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.bmi-calculator button:hover {
+    background: linear-gradient(135deg, rgba(78, 96, 163, 0.8), rgba(122, 154, 199, 0.6));
+    box-shadow: 0 0 15px rgba(78, 96, 163, 0.4);
+}
+
+#result {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    color: white;
+    text-align: center;
+    font-weight: 500;
+}
+

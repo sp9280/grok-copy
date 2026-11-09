@@ -1,0 +1,21 @@
+{
+  "name": "SAS -landing",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint": "biome lint ."
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "typescript": "^5.6.3",
+    "vite": "^6.0.1"
+  },
+  "allowScripts": {
+    "esbuild@0.25.9": true,
+    "@biomejs/biome@1.9.4": true
+  }
+}
